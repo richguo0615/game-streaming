@@ -1,0 +1,34 @@
+syntax = "proto3";
+package proto;
+
+enum PacketType {
+    PACKET_TYPE = 0;
+    QUERY = 1;
+}
+
+message PacketReq {
+    sint32 index = 1;
+    PacketType type = 2;
+    oneof content {
+        Heartbeat heart_beat = 3;
+    }
+}
+
+message PacketRes {
+    sint32 index = 1;
+    PacketType type = 2;
+    oneof content {
+        Heartbeat heart_beat = 3;
+    }
+}
+
+message Heartbeat {
+    sint64 c_time = 1;
+    sint64 s_time = 2;
+}
+
+service Game {
+    rpc Streaming (stream PacketReq) returns (stream PacketRes) {
+
+    }
+}
